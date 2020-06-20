@@ -1,0 +1,118 @@
+{% extends "Chinh/Base.html" %}
+
+{% block tieude %}
+Đăng ký
+{% endblock %}
+
+{% block noidung %}
+<script type="text/javascript">
+    function kiemTraTen(ten){
+        if (ten == ""){
+            document.getElementById("loiTen").textContent="Tên tài khoản chưa được nhập!";
+            return false;
+        }
+        else if (ten.length < 3){
+            document.getElementById("loiTen").textContent="Tên tài khoản phải có ít nhất 3 ký tự!";
+            return false;
+        }
+        else {
+            document.getElementById("loiTen").textContent="";
+            return true;
+        }
+    }
+    function kiemTraMatKhau1(mk1){
+        if (mk1 == ""){
+            document.getElementById("loipassword1").textContent="Mật khẩu chưa được nhập!";
+            return false;
+        }
+        else if (mk1.length < 6){
+            document.getElementById("loipassword1").textContent="Mật khẩu phải có ít nhất 6 ký tự!";
+            return false;
+        }
+        else{
+            document.getElementById("loipassword1").textContent=""
+            return true;
+        }
+    }
+    function kiemTraMatKhau2(mk2, mk1){
+        if (mk2 == ""){
+            document.getElementById("loipassword1").textContent="Mật khẩu chưa được nhập lại!";
+            return false;
+        }
+        else if (mk2 != mk1){
+            document.getElementById("loipassword2").textContent="Hai mật khẩu không trùng khớp!";
+            return false;
+        }
+        else{
+            document.getElementById("loipassword2").textContent=""
+            return true;
+        }
+    }
+    function xacNhanFormDK(){
+        var ten = document.forms['formDK']['username'].value;
+        kqten = kiemTraTen(ten);
+        if (kqten){
+            var mk1 = document.forms['formDK']['password1'].value;
+            kqmk1 = kiemTraMatKhau1(mk1);
+            if (kqmk1){
+                var mk2 = document.forms['formDK']['password2'].value;
+                kqmk2 = kiemTraMatKhau2(mk2,mk1);
+                if (kqmk2){
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+            else {
+                return false;
+            }
+        }
+        else {
+            return false;
+        }
+    }
+</script>
+
+
+<form name="formDK" action="." method="post" onsubmit="return xacNhanFormDK()">
+    {% csrf_token %}
+
+    <table>
+        <tr>
+            <td><label>Tên tài khoản</label></td>
+            <td><input type="text" id="username" name="username" placeholder="Có ít nhất 3 ký tự"></td>
+            <td>
+                <label id="loiTen" style="color: red;"></label>
+            </td>
+            
+        </tr>
+        <tr>
+            <td><label>Mật khẩu</label></td>
+            <td><input type="password" name="password1" placeholder="Có ít nhất 6 ký tự"></td>
+            <td>
+                <label id="loipassword1" style="color: red;"></label>
+            </td>
+        </tr>
+        <tr>
+            <td><label>Nhập lại mật khẩu</label></td>
+            <td><input type="password" name="password2"></td>
+            <td>
+                <label id="loipassword2" style="color: red;"></label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="submit" value="Đăng ký">
+                <input type="hidden" name="next" value="/">
+            </td>
+        </tr>
+    </table>
+</form>
+{% if messages %}
+{% for message in messages %}
+<div><p><strong style="color: red;">{{message}}</strong></p></div>
+{% endfor %}
+{% endif %}
+{% endblock %}
+

@@ -1,0 +1,12 @@
+{% extends 'Chinh/Base.html' %}
+
+{% block tieude %}
+Thong bao ket qua kiem tra
+{% endblock %}
+
+{% block noidung %}
+<p>Chúc mừng bạn đã hoàn thành bài kiểm tra!</p>
+<p>Điểm số: <label style="color: red;">{{diem}}</label></p>
+<p>Xem lại bài làm của bạn ở bên dưới</p>
+<iframe src="https://view.officeapps.live.com/op/embed.aspx?src={{request.session.filekq}}" width='100%' height='400' frameborder='0'>
+{% endblock %}

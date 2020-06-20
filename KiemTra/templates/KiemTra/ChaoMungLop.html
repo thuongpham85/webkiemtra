@@ -1,0 +1,13 @@
+{% extends 'Chinh/Base.html' %}
+
+{% block tieude %}
+Chao mung
+{% endblock %}
+
+{% block noidung %}
+<p>Chào mừng bạn đến với các môn học của {{lop.TenLop}} </p>
+<p>Hiện {{lop.TenLop}} có các môn học sau:</p>
+{% for mh in lop.mon_set.all %}
+    <label>{{forloop.counter}}.</label><a href="mon{{mh.id}}/">{{mh.TenMon}}</a>
+{% endfor %}
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends 'Chinh/Base.html' %}
+
+{% block tieude %}
+Dang nhap
+{% endblock %}
+
+{% block noidung %}
+<form action="." method="POST">
+    {% csrf_token %}
+    <table>
+        <tr>
+            <td><label>Tên tài khoản</label></td>
+            <td><input type="text" name="username"></td>
+        </tr>
+        <tr>
+            <td><label>Mật khẩu</label></td>
+            <td><input type="password" name="password"></td>
+        </tr>
+        <tr>
+            <td>
+                <input type="submit" value="Đăng nhập">
+                <input type="hidden" name="next" value="/">
+            </td>
+        </tr>
+    </table>
+</form>
+{% if messages %}
+    {% for message in messages %}
+        <div><p><strong>{{message}}</strong></p></div>
+    {% endfor %}
+{% endif%}
+{% endblock %}

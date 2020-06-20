@@ -1,0 +1,83 @@
+{% extends 'Chinh/Base.html' %}
+
+{% block tieude %}
+Danh sach bai kiem tra
+{% endblock %}
+
+{% block noidung %}
+<style>
+    table, th, td {
+    border: 1px solid black;
+    padding: 5px;
+    }
+    table {
+    border-spacing: 15px;
+    width: 100%;
+    }
+</style>
+<h4 style="text-align: center;"><b style="color: blue;">Danh sách bài kiểm tra trắc nghiệm</b></h4>
+
+    <table>
+        <tr>
+            <th>STT</th>
+            <th>Tên bài</th>
+            <th>Tình trạng làm</th>
+            <th>Thực hiện</th>
+        </tr>
+        {% for mhoc in mh %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{mhoc.TenBai}}</td>
+            <td>
+                {% if request.session.tentk %}
+                    {% for ttbai in mhoc.thanhtich_set.all %}
+                        {% if ttbai.thanhvien.id == request.session.idtv %}
+                            <p>đã làm</p>
+                        {% endif %}
+                    {% empty %}
+                        <p>chưa làm</p>
+                    {% endfor %}
+                {% else %}
+                    <p></p>
+                {% endif %}
+            </td>
+            <td>
+                {% if request.session.tentk %}
+                    {% if mhoc.NoiDung == "Khong co bai kiem tra" %}
+                        <p>Chưa có nội dung</p>
+                    {% elif mhoc.NoiDung == "" %}
+                        <p>Chưa có nội dung</p>
+                    {% else %}
+                        <a href="bai{{mhoc.id}}/">Làm bài</a>
+                    {% endif %} 
+                {% else %}
+                    <p>Đăng nhập để làm bài kiểm tra</p>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <!--{% if request.session.tentk %}
+        {% if mhoc.NoiDung == "Khong co bai kiem tra" %}
+            <p>Bai nay chua co noi dung kiem tra</p>
+        {% elif mhoc.NoiDung == "" %}
+            <p>Bai nay chua co noi dung kiem tra</p>
+        {% else %}
+            <a href="bai{{mhoc.id}}/">Lam bai kiem tra</a>
+        {% endif %} 
+    
+        {% for ttbai in mhoc.thanhtich_set.all %}
+            {% if ttbai.thanhvien.id == request.session.idtv %}
+                <p>da lam </p>
+            {% endif %}
+        {% empty %}
+            <p>chua lam</p>
+        {% endfor %}
+    {% endif %}-->
+
+<!--
+<p>De bai tu luan</p>
+{% for mhoc in mh.detuluan_set.all %}
+    <p>{{mhoc.TenDe}}</p>
+{% endfor %}-->
+{% endblock %}

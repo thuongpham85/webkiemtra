@@ -1,0 +1,40 @@
+{% extends 'Chinh/Base.html' %}
+
+{% block tieude %}
+Bai kiem tra
+{% endblock %}
+
+{% block noidung %}
+<label>Bat dau lam kiem tra nhe!</label>
+<form action="{% url 'ShowKQ' idlop=idlop idmon=idmon idbai=idbai %}" method="POST">
+    {% csrf_token %}
+    {% for ch in chs %}
+        <p><b>Câu hỏi thứ {{forloop.counter}}/{{tongch}}</b></p>
+        <p>{{ch.cauhoi}}</p>
+        {% if ch.hinh is not None %}
+        <img src="{{ch.hinh.url}}">
+        {% endif %}
+        <div>
+        {% for key, value in ch.traloi.items %}
+            {% if key == 'a'%}
+                <input type="radio" name="{{ch.stt}}" value="a_{{forloop.counter}}">
+            {% else %}
+                <input type="radio" name="{{ch.stt}}" value="{{ch.stt}}_{{forloop.counter}}">
+            {% endif %}
+            {% if forloop.counter == 1 %}
+                <label>A.</label>
+            {% elif forloop.counter == 2 %}
+                <label>B.</label>
+            {% elif forloop.counter == 3 %}
+                <label>C.</label>
+            {% else %}
+                <label>D.</label>
+            {% endif %}
+            <label for="{{ch.stt}}_{{forloop.counter}}">{{value}}</label><br>
+        {% endfor %}
+        </div>
+    {% endfor%}
+    <input type="submit" value="Nop bai">
+    <input type="hidden" name="next" value="/">
+</form>
+{% endblock %}
